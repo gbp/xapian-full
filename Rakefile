@@ -26,12 +26,14 @@ task :default do
 	prefix = Dir.pwd
 
 	Dir.chdir core do
+		system! 'sed -i".bak" -e "s/darwin\\[91\\]/darwin[912]/g" configure'
 		system! "./configure --prefix=#{prefix} --exec-prefix=#{prefix}"
 		system! "make clean all"
 		system! "make install"
 	end
 
 	Dir.chdir bindings do
+		system! 'sed -i".bak" -e "s/darwin\\[91\\]/darwin[912]/g" configure'
 		ENV['RUBY'] ||= "#{c['bindir']}/#{c['RUBY_INSTALL_NAME']}"
 		ENV['XAPIAN_CONFIG'] = "#{prefix}/bin/xapian-config"
 		system! "./configure --prefix=#{prefix} --exec-prefix=#{prefix} --with-ruby"
